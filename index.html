@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visitor Data Logging</title>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(saveVisitorData, handleLocationError);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function saveVisitorData(position) {
+            var serialNo = ""; // Add your logic to generate a unique serial number here
+            var dateTime = new Date().toISOString();
+            var deviceId = "Unknown"; // Add your logic to retrieve the device ID here
+            var geolocation = position.coords.latitude + "," + position.coords.longitude;
+
+            document.getElementById("serialNo").value = serialNo;
+            document.getElementById("dateTime").value = dateTime;
+            document.getElementById("deviceId").value = deviceId;
+            document.getElementById("geolocation").value = geolocation;
+
+            document.getElementById("visitorForm").submit();
+        }
+
+        function handleLocationError(error) {
+            if (error.code === error.PERMISSION_DENIED) {
+                alert("As this site is region-based, we need to know your region. Please grant location access.");
+                getLocation();
+            }
+        }
+
+        window.onload = getLocation;
+    </script>
+</head>
+<body>
+    <h1>Welcome to the site!</h1>
+
+    <form id="visitorForm" action="save_visitor_data.php" method="post">
+        <input type="hidden" id="serialNo" name="serialNo" value="">
+        <input type="hidden" id="dateTime" name="dateTime" value="">
+        <input type="hidden" id="deviceId" name="deviceId" value="">
+        <input type="hidden" id="geolocation" name="geolocation" value="">
+    </form>
+
+    <!-- Rest of your HTML content goes here -->
+</body>
+</html>
+
